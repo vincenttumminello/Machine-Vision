@@ -1,0 +1,34 @@
+{
+    "name": "MachineVision",
+    // Pinned to a prebuilt local image so "Reopen in Container" never triggers
+    // the (slow, OpenCV-from-source) build. Rebuild deliberately after editing
+    // the Dockerfile with: .devcontainer/build.sh
+    "image": "vision:latest",
+    "workspaceFolder": "/workspace",
+    "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+    "remoteUser": "dev",
+    // Forward the host X server (XWayland) and the GPU render node so
+    // cv::imshow and VTK windows appear on your desktop.
+    "runArgs": [
+        "--device=/dev/dri",
+        "--volume=/tmp/.X11-unix:/tmp/.X11-unix:rw"
+    ],
+    "containerEnv": {
+        "DISPLAY": "${localEnv:DISPLAY}"
+    },
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "llvm-vs-code-extensions.vscode-clangd",
+                "ms-vscode.cmake-tools",
+                "twxs.cmake"
+            ],
+            "settings": {
+                "cmake.generator": "Ninja",
+                "cmake.configureOnOpen": true,
+                "clangd.arguments": ["--background-index", "--clang-tidy"],
+                "C_Cpp.intelliSenseEngine": "disabled"
+            }
+        }
+    }
+}

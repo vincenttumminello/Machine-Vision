@@ -1,0 +1,7 @@
+build/
+build-dbg/
+.cache/
+compile_commands.json
+viewer_dump/
+
+*.pdf
